@@ -18,13 +18,27 @@ Création d'un dossier docker à la racine du projet ainsi que d'un fichier dock
 <ol>
 Installation de PHP et Apache : 
 <ol>
-<li> Ajout dans le fichier compose</li>
+<li> Ajout de l'image 'php:8.2-apache' dans le fichier compose</li>
+<li> Création des volumes nécessaires pour le service Apache et PHP</li>
+
+
 </ol>
 </ol>
 
 <br>
 
 ```
+apache:
+    image: php:8.2-apache
+    container_name: 'apache'
+    volumes:
+      - ./apache/html:/var/www/html/
+      - ./apache/sites_enabled:/etc/apache2/sites_enabled
+      - ./apache/php/custom-php.ini:/use/local/etc/php/conf.d/custom-php.ini
+    ports:
+      - "8080:80"
+    networks:
+      - postgres
 
 ```
 
