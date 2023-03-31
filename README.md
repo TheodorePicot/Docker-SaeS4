@@ -98,7 +98,7 @@ Ici, pour l'environnement, on lui passe un email, un mot de passe, et on mets à
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_DEFAULT _PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
       - ./pgadmin:/var/lib/pgadmin
@@ -108,11 +108,18 @@ Ici, pour l'environnement, on lui passe un email, un mot de passe, et on mets à
       - postgres
     restart: unless-stopped
 
-
 ```
 
 Afin de connecter les conteneurs entre eux et au monde  extérieur, on utilise le type de réseau Docker par défaut : bridge
+On a nommé ce réseau sae-network. 
 
+Désormais, grâce à notre fichier compose, nous pouvons lancer notre site web SAE grâce à apache. Cependant, il manque les données de la base de données, nous allons donc mettre en place un docker file afin d'importer les données nécessaires.
+
+<br>
+
+On crée donc un dockerfil : 
+- on y installe l'extension postgis
+- on 
 
 
 virtualisation de postgres IUT avec postgis
