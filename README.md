@@ -13,6 +13,7 @@ Installation de [Docker Desktop](https://docs.docker.com/desktop/install/windows
 Création d'un dossier docker à la racine du projet ainsi que d'un fichier docker dans ce dossier afin d'y mettre le dossier docker-compose.yml. Ce dossier va contenir l'ensemble des conteneurs nécessaire pour la virtualisation.
 
 <br>
+
 ![img](img/img.png)
 
 #### 2.1. Mise en place du fichier compose 
@@ -117,11 +118,11 @@ Désormais, grâce à notre fichier compose, nous pouvons lancer notre site web 
 
 <br>
 
-On crée donc un dockerfil : 
-- on y installe l'extension postgis
+On crée donc un dockerfile : 
+- on y installe l'extension postGIS
 - on 
 
 
-virtualisation de postgres IUT avec postgis
+virtualisation de postgres IUT avec postGIS
 
 virtualisation  

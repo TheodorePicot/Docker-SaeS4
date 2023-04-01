@@ -6,3 +6,8 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+../docker/apache/*
+../docker/pgadmin/*
+../docker/postgres/*
+!../docker/postgres/Dockerfile
+!../docker/apache/Dockerfile

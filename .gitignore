@@ -1,0 +1,5 @@
+docker/apache/*
+docker/pgadmin/*
+docker/postgres/*
+!docker/postgres/Dockerfile
+!docker/apache/Dockerfile
