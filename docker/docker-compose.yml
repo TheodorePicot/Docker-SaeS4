@@ -2,7 +2,7 @@ version: '3.9'
 services:
   apache:
     image: php:8.2-apache
-    container_name: 'apache'
+    container_name: "apache"
     volumes:
       - ./apache/html:/var/www/html/
       - ./apache/sites_enabled:/etc/apache2/sites_enabled
@@ -10,7 +10,7 @@ services:
     ports:
       - "8080:80"
     networks:
-      - postgres
+      - sae-network
 
   postgres:
     container_name: "postgres"
@@ -22,10 +22,11 @@ services:
       PGDATA: /data/postgres
     volumes:
       - ./postgres:/data/postgres
+      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
     ports:
       - "5433:5433"
     networks:
-      - postgres
+      - sae-network
 
   pgadmin:
     container_name: pgadmin_container
@@ -37,11 +38,13 @@ services:
     volumes:
       - ./pgadmin:/var/lib/pgadmin
     ports:
-      - "${PGADMIN_PORT:-5050}:80"
+      - "${PGADMIN_PORT:-8081}:80"
+    depends_on:
+      - apache
     networks:
-      - postgres
+      - sae-network
     restart: unless-stopped
 
 networks:
-  postgres:
+  sae-network:
     driver: bridge
