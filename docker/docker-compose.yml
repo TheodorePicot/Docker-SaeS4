@@ -20,7 +20,6 @@ services:
     build:
       context: .
       dockerfile: postgres/Dockerfile
-    image: postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
