@@ -1,10 +1,7 @@
 version: '3.9'
 services:
   apache:
-    build:
-      context: .
-      dockerfile: apache/Dockerfile
-    image: php:8.2-apache
+    image: apachedebug
     container_name: "apache"
     volumes:
       - ./apache/html:/var/www/html/
@@ -17,17 +14,15 @@ services:
 
   postgres:
     container_name: "postgres"
-    build:
-      context: .
-      dockerfile: postgres/Dockerfile
+    image: postigs
+#    command: ["postgres", "-c", "config_file=/etc/postgresql.conf"]
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: ${POSTGRES_DB:-postgres}
       PGDATA: /data/postgres
     volumes:
-      - ./postgres:/data/postgres
-      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - ./postgres/data:/data/postgres
     ports:
       - "5433:5433"
     networks:
