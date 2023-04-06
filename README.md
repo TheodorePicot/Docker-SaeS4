@@ -13,7 +13,7 @@ Installation de [Docker Desktop](https://docs.docker.com/desktop/install/windows
 Création d'un dossier docker à la racine du projet ainsi que d'un fichier docker dans ce dossier afin d'y mettre le dossier docker-compose.yml. Ce dossier va contenir l'ensemble des conteneurs nécessaire pour la virtualisation.
 
 <br>
-![img](img/img.png)
+
 
 #### 2.1. Mise en place du fichier compose 
 <ol>
@@ -113,13 +113,64 @@ Ici, pour l'environnement, on lui passe un email, un mot de passe, et on mets à
 Afin de connecter les conteneurs entre eux et au monde  extérieur, on utilise le type de réseau Docker par défaut : bridge
 On a nommé ce réseau sae-network. 
 
-Désormais, grâce à notre fichier compose, nous pouvons lancer notre site web SAE grâce à apache. Cependant, il manque les données de la base de données, nous allons donc mettre en place un docker file afin d'importer les données nécessaires.
+Désormais, grâce à notre fichier compose, nous pouvons lancer notre site web SAE grâce à apache.
+Nous allons désormais créer des fichiers "dockerfile" afin d'y indiquer les inscrutions à exécuter pour chaque image.
 
 <br>
 
-On crée donc des dockerfile pour les extensions à installer. 
+On crée donc des dockerfile pour les conteneurs apache et postgres.
 
-On commence par créer le docker 
+On commence par créer le dockerfile pour apache.
+
+``` yaml
+FROM php:7.0-apache
+
+RUN docker-php-ext-install pdo pdo_mysql
+
+RUN yes | pecl install xdebug \
+    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini
+
+COPY php.ini /usr/local/etc/php/
+COPY . /var/www/html/
+
+```
+
+Ce dockerfile contient l'extension Xdebug pour PHP.
 
 
+Nous allons créer un index.php contenant le code : 
+
+``` php
+
+<?php
+phpinfo();
+
+```
+
+Nous obtenons les informations suivantes : 
+
+![img](img/image.png)
+
+![img](img/xdebug.png)
+
+Nous remarquons donc que Xdebug est bien installé.
+
+
+Nous créons ensuite le dockerfile pour postgres.
+
+
+``` yaml
+
+FROM postgres
+
+RUN apt-get update \
+    && apt-get install wget -y \
+    && apt-get install postgresql-12-postgis-3 -y \
+    && apt-get install postgis -y
+
+COPY ./sql/create_tables.sql /docker-entrypoint-initdb.d/
+
+```
 
